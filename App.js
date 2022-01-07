@@ -5,96 +5,33 @@
  * @format
  * @flow strict-local
  */
-
+import React, {useState} from 'react';
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
   View,
-  useColorScheme,
 } from 'react-native';
 
-import type {Node} from 'react';
-import React from 'react';
+import List from './src/components/List/List';
+import Navbar from './src/components/Navbar/Navbar';
+import styles from './src/styles/styles';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  const [task, setTask] = useState('');
+  const [tasklist, setTasklist] = useState([]);
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <Navbar
+        setTask={setTask}
+        task={task}
+        setTasklist={setTasklist}
+        tasklist={tasklist}
+      />
+      <ScrollView>
+        <List setTasklist={setTasklist} tasklist={tasklist} />
+      </ScrollView>
     </View>
   );
 };
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Hola, Coder!">
-           Arriba esta el titulo
-          </Section>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
